@@ -1,6 +1,7 @@
 package com.veedev.talkify.controller;
 
 import com.veedev.talkify.dto.MessageRequest;
+import com.veedev.talkify.dto.SocketMessage;
 import com.veedev.talkify.model.Message;
 import com.veedev.talkify.service.MessageService;
 import lombok.AllArgsConstructor;
@@ -16,8 +17,8 @@ public class MessageController {
     private MessageService messageService;
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendMessage(@RequestBody MessageRequest request) {
-        return messageService.sendMessage(request);
+    public ResponseEntity<String> sendMessage(@RequestBody SocketMessage socketMessage) {
+        return messageService.sendMessage(socketMessage);
     }
 
     @GetMapping("/chat/{chatid}")

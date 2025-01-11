@@ -1,6 +1,7 @@
 package com.veedev.talkify.impl;
 
 import com.veedev.talkify.dto.MessageRequest;
+import com.veedev.talkify.dto.SocketMessage;
 import com.veedev.talkify.model.Chat;
 import com.veedev.talkify.model.Message;
 import com.veedev.talkify.model.User;
@@ -24,9 +25,9 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public ResponseEntity<String> sendMessage(MessageRequest request) {
-        Chat chat = chatRepository.findById(request.getChatId()).orElse(null);
-        User user = userRepository.findById(request.getSenderId()).orElse(null);
+    public ResponseEntity<String> sendMessage(SocketMessage socketMessage) {
+        Chat chat = chatRepository.findById(socketMessage.getChatId()).orElse(null);
+        User user = userRepository.findById(socketMessage.getSenderId()).orElse(null);
 
         if (chat == null || user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Chat or User not found");
@@ -34,7 +35,7 @@ public class MessageServiceImpl implements MessageService {
         Message message = new Message();
         message.setChat(chat);
         message.setSender(user);
-        message.setContent(request.getContent());
+        message.setContent(socketMessage.getContent());
         messageRepository.save(message);
         return ResponseEntity.status(HttpStatus.CREATED).body("Message sent");
     }
