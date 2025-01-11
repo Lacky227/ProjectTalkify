@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<String> registerUser(RegisterRequest request) {
         if(userRepository.existsByUsername(request.getUsername())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
         }
         if(userRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
         if(userRepository.existsByNumberPhone(request.getNumberPhone())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Phone number already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Phone number already exists");
         }
         User user = new User();
         user.setFirstName(request.getFirstName());
